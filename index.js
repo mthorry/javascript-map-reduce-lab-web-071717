@@ -9000,3 +9000,39 @@ const issues = [
     "url": "https://api.github.com/repos/learn-co-curriculum/js-donut-lab/issues/2"
   }
 ];
+
+const issuesWithUpdatedApiUrl = issues.map(function(issue) {
+   return Object.assign({}, issue, {
+    url: issue.url.replace('api', 'api-v2')
+  })
+});
+
+
+const commentCountAcrossIssues =
+  issues.map(function(issue) {return issue.comments_count}).reduce(function(sum, count) {
+     return sum + count
+    }, 0);
+
+
+const openIssues = issues.filter(function(issue){
+  return issue.state === 'open'
+});
+
+const nonAutomaticIssues = issues.filter(function(issue){
+  return !issue.body.includes('automatically')
+});
+
+const $tbody = document.getElementById('results');
+$tbody.innerHTML = nonAutomaticIssues
+  .map(issue => `<tr>
+    <td>${issue.body}</td>
+    <td>${issue.created_at}</td>
+    <td>${issue.state}</td>
+    </tr>`
+  )
+  .join('');
+
+// The result should be in a variable called commentCountAcrossIssues
+// First, map the issues array and pull out the comments_count, to make things easier
+// Next, reduce the array of comment counts and add them all together
+// Feel free to chain these operations on the issues array for brevity — no need for a temporary variable!
